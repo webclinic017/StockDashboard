@@ -1,0 +1,18 @@
+.banner {
+    padding-top: 100px;
+    background-image: url("../images/pulse.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% auto;
+    height: 200px;
+}
+
+.title {
+    padding-top: 40px;
+}
+
+@media only screen and (max-width: 700px) {
+    .banner {
+        height: initial;
+    }
+}
