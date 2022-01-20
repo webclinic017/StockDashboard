@@ -4,8 +4,8 @@
         <div class="col-md-8">
             <div class="search"> 
                 <i class="fa fa-search"></i> 
-                <input type="text" class="form-control" placeholder="Search by ticker symbol or company name..."> 
-                <button class="btn btn-primary">Add</button> 
+                <input type="text" name="searchBar" class="form-control" placeholder="Search by ticker symbol or company name..."> 
+                <button type="submit" class="btn btn-primary">Add</button> 
             </div>
         </div>
     </form>
@@ -21,7 +21,23 @@
 </div>
 
 <ul class="table-list" id="stockList">
-    <li>
+    {% for item in to_add %}
+        <li>
+            <div class="row">
+            <div class="col" align="center">{{item.query}}</div>
+            <div class="col" align="center">$173.24</div>
+            <div class="col" align="center">-1.56%</div>
+            <div class="col" align="center">$182.68</div>
+            <div class="col" align="center">$115.24</div>
+            <div class="col" align="center">
+                <a style="text-decoration: none;" href="delete/{{item.id}}">
+                <button type="button" class="btn btn-danger">Delete</button>
+                </a>
+            </div>
+            </div>
+        </li>
+    {% endfor %}
+    <!-- <li>
       <div class="row">
         <div class="col" align="center">AAPL</div>
         <div class="col" align="center">$173.24</div>
@@ -49,5 +65,5 @@
           </a>
         </div>
       </div>
-    </li>
+    </li> -->
 </ul>
