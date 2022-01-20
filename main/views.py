@@ -7,8 +7,12 @@ from listItems.views import handleAdd
 # Create your views here.
 def index(request):
     searchResult = Search.objects.all()
-    
-    handleAdd(request)
+    if request.method == 'POST':
+        new_item = Search(
+            query = request.POST['searchBar']
+        )
+        new_item.save()
+        return redirect('/') #homepage
 
     context = {
         'to_add': searchResult
