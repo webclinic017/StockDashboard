@@ -1,7 +1,7 @@
 .search {
     position: relative;
     box-shadow: 0 0 40px rgba(51, 51, 51, .1);
-    margin: 30px auto;
+    margin: 30px auto 60px auto;
     max-width: 800px;
 }
 
@@ -29,6 +29,13 @@
     height: 50px;
     width: 110px;
     background: blue
+}
+
+.error {
+    position: absolute;
+    left: 5px;
+    top: 65px;
+    color: red;
 }
 
 .table-list {

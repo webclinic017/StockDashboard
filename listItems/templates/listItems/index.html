@@ -1,12 +1,13 @@
 <div class="row" align="center">
-    <form action="" method="POST">
+    <form action="" method="POST" id="searchForm">
       {% csrf_token %}
         <div class="col-md-8">
             <div class="search"> 
                 <i class="fa fa-search"></i> 
-                <input id="autoComplete" type="text" name="searchBar" class="form-control"> 
+                <input id="autoComplete" type="text" name="searchBar" class="form-control" onkeyup="return enterVal(event)"> 
                 <button type="submit" class="btn btn-primary">Add</button> 
-            </div>
+                <span class="error" align="left">Apologies: this app is limited to companies in the S&P 500</span>
+              </div>
         </div>
     </form>
 </div>
