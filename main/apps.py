@@ -8,7 +8,7 @@ class MainConfig(AppConfig):
     #custom startup code
     def ready(self) -> None:
         #return super().ready()
-        from listItems.models import Search
+        from listItems.models import Search, SearchField
         Search.objects.all().delete()
         s1 = Search(query='FB')
         s1.save()
@@ -23,3 +23,6 @@ class MainConfig(AppConfig):
 
         from stocks.func import saveSP500
         saveSP500()
+
+        SearchField.objects.all().delete()
+        SearchField().save()

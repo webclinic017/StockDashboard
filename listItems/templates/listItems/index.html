@@ -6,7 +6,13 @@
                 <i class="fa fa-search"></i> 
                 <input id="autoComplete" type="text" name="searchBar" class="form-control" onkeyup="return enterVal(event)"> 
                 <button type="submit" class="btn btn-primary">Add</button> 
-                <span class="error" align="left">Apologies: this app is limited to companies in the S&P 500</span>
+                <span class="error" align="left">
+                  {% if info.count == 10 %}
+                    Due to API constraints, please add no more than 10 stocks
+                  {% elif not info.validity %}
+                    Apologies: this app is limited to companies in the S&P 500
+                  {% endif %}
+                </span>
               </div>
         </div>
     </form>
