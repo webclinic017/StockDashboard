@@ -14,18 +14,25 @@ def index(request):
     ticker,company = loadSP500()
     isValid = True
     searchResult = Search.objects.all()
+    curr_stocks = set(Search.objects.values_list('query', flat=True))
+   
     searchInfo = SearchField.objects.first()
 
     if request.method == 'POST':
         input = request.POST['searchBar']
         isValid,convertedTicker = validateInput(input,ticker,company)
         if isValid and searchInfo.count<stock_limit:
-            new_item = Search(
-                query = convertedTicker
-            )
-            new_item.save()
             searchInfo.validity = True
-            searchInfo.count+=1
+            if convertedTicker not in curr_stocks:
+                searchInfo.is_duplicate = False
+                new_item = Search(
+                    query = convertedTicker
+                )
+                new_item.save()
+                
+                searchInfo.count+=1
+            else:
+                searchInfo.is_duplicate = True
         else:
             searchInfo.validity = False
         searchInfo.save()
@@ -49,6 +56,7 @@ def delete(request, pk):
     searchInfo = SearchField.objects.first()
     searchInfo.count-=1
     searchInfo.validity = True
+    searchInfo.is_duplicate = False
     searchInfo.save()
 
     return redirect('/')

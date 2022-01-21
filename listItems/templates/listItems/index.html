@@ -11,6 +11,8 @@
                     Due to API constraints, please add no more than 10 stocks
                   {% elif not info.validity %}
                     Apologies: this app is limited to companies in the S&P 500
+                  {% elif info.is_duplicate %}
+                    Stock has already been entered
                   {% endif %}
                 </span>
               </div>

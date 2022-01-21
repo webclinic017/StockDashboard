@@ -9,4 +9,5 @@ class Search(models.Model):
 
 class SearchField(models.Model):
     count = models.IntegerField(default=Search.objects.all().count())
+    is_duplicate = models.BooleanField(default=False)
     validity = models.BooleanField(default=True)

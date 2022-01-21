@@ -25,4 +25,4 @@ class MainConfig(AppConfig):
         saveSP500()
 
         SearchField.objects.all().delete()
-        SearchField().save()
+        SearchField(count=5).save()
