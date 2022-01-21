@@ -20,3 +20,6 @@ class MainConfig(AppConfig):
         s4.save()
         s5 = Search(query='GOOGL')
         s5.save()
+
+        from stocks.func import saveSP500
+        saveSP500()

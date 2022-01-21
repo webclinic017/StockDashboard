@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main', #controls other apps for this project
     'listItems',
+    'stocks',
 ]
 
 MIDDLEWARE = [

@@ -4,14 +4,14 @@
         <div class="col-md-8">
             <div class="search"> 
                 <i class="fa fa-search"></i> 
-                <input type="text" name="searchBar" class="form-control" placeholder="Search by ticker symbol or company name..."> 
+                <input id="autoComplete" type="text" name="searchBar" class="form-control"> 
                 <button type="submit" class="btn btn-primary">Add</button> 
             </div>
         </div>
     </form>
 </div>
 
-<div class="row table-list table-header">
+<div class="row table-header">
     <div class="col" align="center">Ticker</div>
     <div class="col" align="center">Price</div>
     <div class="col" align="center">Change</div>
@@ -37,33 +37,6 @@
             </div>
         </li>
     {% endfor %}
-    <!-- <li>
-      <div class="row">
-        <div class="col" align="center">AAPL</div>
-        <div class="col" align="center">$173.24</div>
-        <div class="col" align="center">-1.56%</div>
-        <div class="col" align="center">$182.68</div>
-        <div class="col" align="center">$115.24</div>
-        <div class="col" align="center">
-          <a style="text-decoration: none;" href="delete/{{todo.id}}">
-            <button type="button" class="btn btn-danger">Delete</button>
-          </a>
-        </div>
-      </div>
-    </li>
-    
-    <li>
-      <div class="row">
-        <div class="col" align="center">FB</div>
-        <div class="col" align="center">$173.24</div>
-        <div class="col" align="center">-1.56%</div>
-        <div class="col" align="center">$182.68</div>
-        <div class="col" align="center">$115.24</div>
-        <div class="col" align="center">
-          <a style="text-decoration: none;" href="delete/{{todo.id}}">
-            <button type="button" class="btn btn-danger">Delete</button>
-          </a>
-        </div>
-      </div>
-    </li> -->
-</ul>
+</ul>  
+
+{% include "listItems/autoComp.html" %} 
