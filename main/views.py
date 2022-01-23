@@ -2,6 +2,8 @@ from re import search
 from django.shortcuts import redirect, render
 from matplotlib.pyplot import get
 #import pdb; pdb.set_trace()
+import json
+from django.core.serializers.json import DjangoJSONEncoder
 
 from listItems.models import SearchField
 from listItems.views import handleAdd
@@ -15,7 +17,7 @@ stock_limit = 10
 def index(request):
     ticker,company = loadSP500() # load list of ticker symbols and company names
     isValid = True
-    searchResult = Stock.objects.all()
+    searchResults = Stock.objects.all()
     curr_stocks = set(Stock.objects.values_list('ticker', flat=True)) # flat returned results are single values, rather than one-tuples
    
     searchInfo = SearchField.objects.first()
@@ -43,11 +45,13 @@ def index(request):
         return redirect('/') #homepage
 
     res = [i +' - '+j for i, j in zip(ticker, company)] #'TICKER - Company'
+    stock_ids = [str(s.id) for s in searchResults]
 
     context = {
-        'to_add': searchResult,
+        'to_add': searchResults,
         'res': res,
         'info': searchInfo,
+        'stock_ids': stock_ids,
     }
 
     return render(request, 'main/base.html', context)

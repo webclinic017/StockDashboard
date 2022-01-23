@@ -29,7 +29,7 @@
             item.addEventListener("click", function(){
                 symbol = item.textContent.split(' - ')[0];
                 searchInput.value = symbol;
-                searchForm.submit()
+                searchForm.submit();
             });
         });
     };
