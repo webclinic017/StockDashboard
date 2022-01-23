@@ -16,13 +16,16 @@ def loadSP500():
 def validateInput(input,ticker,company):
     #company list should be alphabetized, ticker not necessarily
     isValid = False
-    convertedTicker = ""
+    convertedTicker = "N/A"
+    convertedCompany = "N/A"
 
     if input.upper() in ticker:
         isValid = True
         convertedTicker = input.upper()
+        convertedCompany = company[ticker.index(input.upper())]
     elif input.title() in company: #captalize first letter of each word
         isValid = True
+        convertedCompany = input.title()
         convertedTicker = ticker[company.index(input.title())]
     
-    return isValid, convertedTicker
+    return isValid, convertedTicker, convertedCompany

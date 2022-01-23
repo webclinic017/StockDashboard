@@ -8,21 +8,21 @@ class MainConfig(AppConfig):
     #custom startup code
     def ready(self) -> None:
         #return super().ready()
-        from listItems.models import Search, SearchField
-        Search.objects.all().delete()
-        s1 = Search(query='FB')
-        s1.save()
-        s2 = Search(query='AAPL')
-        s2.save()
-        s3 = Search(query='AMZN')
-        s3.save()
-        s4 = Search(query='NFLX')
-        s4.save()
-        s5 = Search(query='GOOGL')
-        s5.save()
+        from listItems.models import SearchField
+        from stocks.models import Stock
+        from stocks.func import loadSP500, validateInput
 
-        from stocks.func import saveSP500
-        saveSP500()
+        symbols = ['FB','AAPL','AMZN','NFLX','GOOGL']
+
+        Stock.objects.all().delete()
+        for i in range(len(symbols)):
+            tickers,companies = loadSP500()
+            convertedTicker,convertedCompany = validateInput(symbols[i],tickers,companies)[1:3]
+            s = Stock(
+                ticker = convertedTicker,
+                company = convertedCompany
+            )
+            s.save()
 
         SearchField.objects.all().delete()
-        SearchField(count=5).save()
+        SearchField(count=len(symbols)).save()
