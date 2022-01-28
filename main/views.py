@@ -62,13 +62,15 @@ def index(request):
     return render(request, 'main/base.html', context)
 
 def delete(request, pk):
-    s = Stock.objects.get(id=pk)
-    s.delete()
 
-    searchInfo = SearchField.objects.first()
-    searchInfo.count-=1
-    searchInfo.validity = True
-    searchInfo.is_duplicate = False
-    searchInfo.save()
+    if Stock.objects.filter(id=pk).exists(): #fixes weird error where delete happens on a nonexistent object
+        s = Stock.objects.get(id=pk)
+        s.delete()
+
+        searchInfo = SearchField.objects.first()
+        searchInfo.count-=1
+        searchInfo.validity = True
+        searchInfo.is_duplicate = False
+        searchInfo.save()
 
     return redirect('/')
