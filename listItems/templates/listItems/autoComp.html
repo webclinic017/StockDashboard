@@ -2,12 +2,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.6/dist/autoComplete.min.js"></script>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
     const res = {{res | safe}}
     //const auth_status = {{ info.validity | yesno:"true,false" }};
-</script> 
- 
-<script>
+
     const autoCompleteJS = new autoComplete({
         placeHolder: "Search by ticker symbol or company name",
         data: {

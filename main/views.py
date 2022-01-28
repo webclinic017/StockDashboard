@@ -10,7 +10,7 @@ from listItems.views import handleAdd
 
 from stocks.models import Stock
 
-from stocks.func import loadSP500, validateInput
+from stocks.func import loadSP500, validateInput, getYF_data
 
 stock_limit = 10
 # Create your views here.
@@ -29,9 +29,14 @@ def index(request):
             searchInfo.validity = True
             if convertedTicker not in curr_stocks: # no duplicate entered
                 searchInfo.is_duplicate = False
+                low, high, open, close = getYF_data(convertedTicker)
                 new_stock = Stock(
                     ticker = convertedTicker,
                     company = convertedCompany,
+                    open = open,
+                    close = close,
+                    low_52wk = low,
+                    high_52wk = high
                 )
                 new_stock.save()
                 

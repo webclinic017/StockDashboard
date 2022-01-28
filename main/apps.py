@@ -10,7 +10,7 @@ class MainConfig(AppConfig):
         #return super().ready()
         from listItems.models import SearchField
         from stocks.models import Stock
-        from stocks.func import loadSP500, validateInput
+        from stocks.func import loadSP500, validateInput, getYF_data
 
         symbols = ['FB','AAPL','AMZN','NFLX','GOOGL']
 
@@ -18,9 +18,14 @@ class MainConfig(AppConfig):
         for i in range(len(symbols)):
             tickers,companies = loadSP500()
             convertedTicker,convertedCompany = validateInput(symbols[i],tickers,companies)[1:3]
+            low, high, open, close = getYF_data(convertedTicker)
             s = Stock(
                 ticker = convertedTicker,
-                company = convertedCompany
+                company = convertedCompany,
+                open = open,
+                close = close,
+                low_52wk = low,
+                high_52wk = high
             )
             s.save()
 

@@ -8,7 +8,7 @@
                 <button type="submit" class="btn btn-primary">Add</button> 
                 <span class="error" align="left">
                   {% if info.count == 10 %}
-                    Due to API constraints, please add no more than 10 stocks
+                    You have reached a limit of 10 stocks
                   {% elif not info.validity %}
                     Apologies: this app is limited to companies in the S&P 500
                   {% elif info.is_duplicate %}
@@ -22,9 +22,9 @@
 
 <div class="row table-header">
     <div class="col" align="center">Stock</div>
-    <div class="col" align="center">Price</div>
-    <div class="col" align="center">Change</div>
-    <div class="col" align="center">52-week Low</div>
+    <div class="col" align="center">Prev. Open</div>
+    <div class="col" align="center">Prev. Close</div>
+    <div class="col" align="center">52-Week Low</div>
     <div class="col" align="center">52-Week High</div>
     <div class="col" align="center"></div> <!--for delete button-->
 </div>
@@ -36,12 +36,8 @@
               <div class="col item-ticker" style="cursor: pointer;" align="center">{{stock.ticker}}</div>
               <div class="col item-company" style="display:none; cursor: pointer;" align="center">{{stock.company}}</div>
               
-              <div class="col" align="center">${{stock.price}}</div>
-
-              <div class="col item-change" style="cursor: pointer;" align="center">{{stock.change}}</div>
-              <div class="col item-change-p" style="display:none; cursor: pointer;" align="center">{{stock.change_p}}%</div>
-              
-
+              <div class="col" align="center">${{stock.open}}</div>
+              <div class="col" align="center">${{stock.close}}</div>              
               <div class="col" align="center">${{stock.low_52wk}}</div>
               <div class="col" align="center">${{stock.high_52wk}}</div>
 
@@ -57,11 +53,8 @@
 
 {% include "listItems/autoComp.html" %} 
 
-<script type="text/javascript">
-  const ids = {{stock_ids | safe}}
-</script>
-
 <script type="text/javascript"> 
+  const ids = {{stock_ids | safe}}
   function showHide(){ //show or hide ticker/company
     class_name = this.className.split(" ")[1];
     parent_id = this.parentElement.parentElement.id;
@@ -69,12 +62,7 @@
       make_visible = document.querySelector(`#${parent_id} `+ ".item-company");
     } else if (class_name=="item-company"){ 
       make_visible = document.querySelector(`#${parent_id} `+ ".item-ticker");
-    } else if (class_name=="item-change"){
-      make_visible = document.querySelector(`#${parent_id} `+ ".item-change-p");
-    } else if (class_name=="item-change-p"){
-      make_visible = document.querySelector(`#${parent_id} `+ ".item-change");
     }
-    
     make_visible.style.display = "block"
     this.style.display = "none"
   }
@@ -82,7 +70,5 @@
   for(let i=0; i<ids.length; i++){
     document.querySelector(`#s${ids[i]} `+ ".item-ticker").addEventListener('click', showHide);
     document.querySelector(`#s${ids[i]} `+ ".item-company").addEventListener('click', showHide);
-    document.querySelector(`#s${ids[i]} `+ ".item-change").addEventListener('click', showHide);
-    document.querySelector(`#s${ids[i]} `+ ".item-change-p").addEventListener('click', showHide);
   }
 </script> 
