@@ -1,6 +1,39 @@
 var cnt = 0;
 var limit = 10;
 const market_status = document.querySelector('#market-status').textContent
+const ws_url = 'ws://' + window.location.host + '/ws/graph/';
+const socket = new WebSocket(ws_url);
+
+const waitForOpenConnection = (socket) => {
+    return new Promise((resolve, reject) => {
+        const maxNumberOfAttempts = 10
+        const intervalTime = 200 //ms
+
+        let currentAttempt = 0
+        const interval = setInterval(() => {
+            if (currentAttempt > maxNumberOfAttempts - 1) {
+                clearInterval(interval)
+                reject(new Error('Maximum number of attempts exceeded'))
+            } else if (socket.readyState === socket.OPEN) {
+                clearInterval(interval)
+                resolve()
+            }
+            currentAttempt++
+        }, intervalTime)
+    })
+}
+
+const sendMessage = async (socket, msg) => {
+    if (socket.readyState !== socket.OPEN) {
+        try {
+            await waitForOpenConnection(socket)
+            socket.send(msg)
+        } catch (err) { console.error(err) }
+    } else {
+        socket.send(msg)
+    }
+}
+
 $( document ).ready(function() {
     if (market_status=='Closed'){
         document.querySelector('#data-mode').value = '1mo'
@@ -9,7 +42,11 @@ $( document ).ready(function() {
     var numStocks = document.getElementById("stockList").getElementsByTagName("li").length
     if (numStocks>0){
         document.querySelector('#stock-selection').selectedIndex = 1
-        document.querySelector('#update-btn').click()
+        message = JSON.stringify({
+            'data_mode': document.querySelector('#data-mode').value,
+            'stock_select': document.querySelector('#stock-selection').value,
+        })
+        sendMessage(socket,message)
     }
 });
 
@@ -89,8 +126,6 @@ var layout = {
 
 //Plotly.newPlot('chart',plotData,layout);
 
-var ws_url = 'ws://' + window.location.host + '/ws/graph/';
-var socket = new WebSocket(ws_url);
 // socket.onmessage = function(event){
 //     var data = JSON.parse(event.data);
 //     console.log(data.message);
@@ -117,7 +152,7 @@ var socket = new WebSocket(ws_url);
 
 socket.onmessage = function(event){
     var data = JSON.parse(event.data);
-    if (!data.market_open){
+    if (market_status=='Closed'){
         processHistorical(data.x_val,data.y_val)
     }
 }

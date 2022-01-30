@@ -16,9 +16,6 @@ class WSConsumer(AsyncWebsocketConsumer):
         )
 
         await self.accept()
-        # for i in range(100):
-        #     await self.send(json.dumps({'message': randint(1,100)}))
-        #     await sleep(1) 
     
     async def disconnect(self, close_code):
         # Leave group
@@ -33,26 +30,53 @@ class WSConsumer(AsyncWebsocketConsumer):
         data_mode = text_data_json['data_mode']
         stock_select = text_data_json['stock_select']
 
+        market_open = alpaca.isOpen()
+
         # Send message to room group
-        await self.channel_layer.group_send(
-            self.group_name,
-            {
-                'type': 'stock_message',
-                'data_mode': data_mode,
-                'stock_select': stock_select,
-            }
-        )
+        if market_open:
+            await self.channel_layer.group_send(
+                self.group_name,
+                {
+                    'type': 'realTime',
+                    'data_mode': data_mode,
+                    'stock_select': stock_select,
+                }
+            )
+        else:
+            await self.channel_layer.group_send(
+                self.group_name,
+                {
+                    'type': 'historical',
+                    'data_mode': data_mode,
+                    'stock_select': stock_select,
+                }
+            )
     
     # Receive message from group
-    async def stock_message(self, event):
+    async def historical(self, event):
         data_mode = event['data_mode']
         stock_select = event['stock_select']
-        market_open = alpaca.isOpen()
         x_val, y_val = func.getHistorical(stock_select,data_mode)
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
-            'market_open': market_open,
             'x_val': x_val,
             'y_val': y_val,
         }))
+    
+    async def realTime(self, event):
+        stock_select = event['stock_select']
+        for i in range(100):
+            await self.send(json.dumps({
+                'bid': randint(150,160),
+                'ask': randint(160,170),
+                }))
+            await sleep(1)
+
+        # while alpaca.isOpen():
+        #     quote = alpaca.getQuote(stock_select)
+        #     await self.send(json.dumps({
+        #         'bid': quote.bidprice,
+        #         'ask': quote.askprice,
+        #         }))
+        #     await sleep(1)
