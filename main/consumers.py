@@ -30,10 +30,10 @@ class WSConsumer(AsyncWebsocketConsumer):
         data_mode = text_data_json['data_mode']
         stock_select = text_data_json['stock_select']
 
-        market_open = alpaca.isOpen()
+        #market_open = alpaca.isOpen()
 
-        # Send message to room group
-        if market_open:
+        # Send message to group
+        if data_mode=='realTime':
             await self.channel_layer.group_send(
                 self.group_name,
                 {
@@ -60,14 +60,19 @@ class WSConsumer(AsyncWebsocketConsumer):
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
+            'data_mode': data_mode,
+            'stock_select': stock_select,
             'x_val': x_val,
             'y_val': y_val,
         }))
     
     async def realTime(self, event):
+        data_mode = event['data_mode']
         stock_select = event['stock_select']
-        for i in range(100):
+        for i in range(15):
             await self.send(json.dumps({
+                'data_mode': data_mode,
+                'stock_select': stock_select,
                 'bid': randint(150,160),
                 'ask': randint(160,170),
                 }))
@@ -76,7 +81,7 @@ class WSConsumer(AsyncWebsocketConsumer):
         # while alpaca.isOpen():
         #     quote = alpaca.getQuote(stock_select)
         #     await self.send(json.dumps({
-        #         'bid': quote.bidprice,
-        #         'ask': quote.askprice,
+        #         'bid': round(quote.bidprice,2),
+        #         'ask': round(quote.askprice,2),
         #         }))
         #     await sleep(1)

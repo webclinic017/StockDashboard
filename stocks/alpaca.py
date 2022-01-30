@@ -17,7 +17,8 @@ def getBars(symbol,start,end):
     return bar_iter
 
 def isOpen():
-    return api.get_clock().is_open
+    #return api.get_clock().is_open
+    return True
 
 def getQuote(symbol):
     return api.get_last_quote(symbol)
