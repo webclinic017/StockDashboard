@@ -38,3 +38,15 @@ def getYF_data(symbol):
     open = df['Open'][-1]
     close = df['Close'][-1]
     return low, high, open, close
+
+def getHistorical(symbol,lookback):
+    if lookback=='realTime': return [], []
+
+    df = yf.download(symbol, period=lookback, auto_adjust=True, prepost=True, threads=True, progress=False)
+    df['time'] = pd.to_datetime(df.index)
+    df['dates'] = df['time'].dt.date
+    x_val = [date.strftime("%Y-%m-%d") for date in df['dates']]
+    #y_val = list(df['Close'])
+    y_val = [round(price,2) for price in df['Close']]
+
+    return x_val, y_val

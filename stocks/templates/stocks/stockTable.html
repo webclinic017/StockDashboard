@@ -1,17 +1,25 @@
 <div class="row table-controller">
     <div class="col-md" align="center">
         <div>
-            <span>Market Status: <span id="market-status">Closed</span></span>
+
+            <span style="font-weight: 700;">Market Status:</span>
+            {% if market_status %}
+            <span id="market-status" style="color:green">Open</span>
+            {% else %}
+            <span id="market-status" style="color: red">Closed</span>
+            {% endif %}
         </div>
     </div>
     <div class="col-md" align="center">
         <div>
-            <label for="mode">Choose data mode:</label>
+            <label for="mode">Choose data type:</label>
             <select name="mode" id="data-mode">
-            <option value="real-time">Real Time</option>
-            <option value="h-1w">Historical - 1 Week</option>
-            <option value="h-1m">Historical - 1 Month</option>
-            <option value="h-1y">Historical - 1 Year</option>
+            <option value="realTime">Real Time</option>
+            <option value="1mo">Historical - 1 Month</option>
+            <option value="3mo">Historical - 3 Months</option>
+            <option value="6mo">Historical - 6 Months</option>
+            <option value="1y">Historical - 1 Year</option>
+            <option value="max">Historical - Max</option>
             </select>
         </div>
     </div>
@@ -19,21 +27,21 @@
         <div>
             <label for="stocks">Choose stock:</label>
             <select name="stocks" id="stock-selection">
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="mercedes">Mercedes</option>
-            <option value="audi">Audi</option>
+            <option value="none">Select a stock</option>
+            {% for stock in to_add %}
+            <option value="{{stock.ticker}}">{{stock.ticker}}</option>
+            {% endfor %}
             </select>
         </div>
     </div>
     <div class="col-md" align="center">
-        <button id="update-btn" type="submit" class="btn btn-warning">Update</button>
+        <button id="update-btn" class="btn btn-warning">Update</button>
     </div>
 </div>
 
 <div class="row">
     <div class="col" align="center">
-        <span id="update-error">Real time data only available when market is open</span>
+        <span id="update-error" style="display: none;">Real time data only available when market is open</span>
     </div>
 </div>
 

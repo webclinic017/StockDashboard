@@ -11,6 +11,7 @@ from listItems.views import handleAdd
 from stocks.models import Stock
 
 from stocks.func import loadSP500, validateInput, getYF_data
+from stocks import alpaca
 
 stock_limit = 10
 # Create your views here.
@@ -52,11 +53,13 @@ def index(request):
     res = [i +' - '+j for i, j in zip(ticker, company)] #'TICKER - Company'
     stock_ids = [str(s.id) for s in searchResults]
 
+    market_status = alpaca.isOpen()
     context = {
         'to_add': searchResults,
         'res': res,
         'info': searchInfo,
         'stock_ids': stock_ids,
+        'market_status': market_status,
     }
 
     return render(request, 'main/base.html', context)
