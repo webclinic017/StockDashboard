@@ -1,0 +1,48 @@
+<div class="row table-controller">
+    <div class="col-md" align="center">
+        <div>
+            <span>Market Status: <span id="market-status">Closed</span></span>
+        </div>
+    </div>
+    <div class="col-md" align="center">
+        <div>
+            <label for="mode">Choose data mode:</label>
+            <select name="mode" id="data-mode">
+            <option value="real-time">Real Time</option>
+            <option value="h-1w">Historical - 1 Week</option>
+            <option value="h-1m">Historical - 1 Month</option>
+            <option value="h-1y">Historical - 1 Year</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md" align="center">
+        <div>
+            <label for="stocks">Choose stock:</label>
+            <select name="stocks" id="stock-selection">
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="mercedes">Mercedes</option>
+            <option value="audi">Audi</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md" align="center">
+        <button id="update-btn" type="submit" class="btn btn-warning">Update</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col" align="center">
+        <span id="update-error">Real time data only available when market is open</span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md" align="center">
+        <div id="chart"></div>
+    </div>
+</div>
+
+{% load static %}
+<script src="{% static 'stocks/plot.js' %}"></script>
+

@@ -1,0 +1,16 @@
+.table-controller{
+    margin: 30px auto;
+}
+
+.table-controller div{
+    margin: 8px auto;
+    vertical-align: middle;
+}
+
+#update-error {
+    color: red;
+}
+
+#chart {
+    max-width: 1000px;
+}

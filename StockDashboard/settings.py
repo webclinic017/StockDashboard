@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'main', #controls other apps for this project
     'listItems',
     'stocks',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -72,7 +73,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'StockDashboard.wsgi.application'
-
+ASGI_APPLICATION = 'StockDashboard.asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
