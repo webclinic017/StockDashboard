@@ -17,8 +17,11 @@ def getBars(symbol,start,end):
     return bar_iter
 
 def isOpen():
-    #return api.get_clock().is_open
-    return True
+    return api.get_clock().is_open
 
 def getQuote(symbol):
     return api.get_last_quote(symbol)
+
+def getLastClose(symbol):
+    bar = api.get_barset(symbol,limit=1,timeframe='minute')
+    return bar[symbol][0].c

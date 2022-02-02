@@ -46,7 +46,7 @@ var trace1 = {
         color: '#DDDF61',
         width: 2
     },
-    name: 'Bid'
+    name: 'Close'
 };
 var trace2 = {
     x:[],
@@ -113,19 +113,27 @@ var layout = {
 
 //load appropriate graph on page load
 $( document ).ready(function() {
+    if (document.URL==window.location.origin+'/'){ //loading root URL
+        document.querySelector('#stock-selection').selectedIndex = 1
+    }else{
+        document.querySelector('#data-mode').value = document.URL.split('/').slice(-2)[0]
+        document.querySelector('#stock-selection').value = document.URL.split('/').slice(-1)[0]
+    }
+
     var numStocks = document.getElementById("stockList").getElementsByTagName("li").length
     Plotly.newPlot('chart',plotData,layout);
     if (numStocks>0){
-        if (market_status=='Closed'){
-            document.querySelector('#data-mode').value = '1mo'
-        }
-        document.querySelector('#stock-selection').selectedIndex = 1
         message = JSON.stringify({
             'data_mode': document.querySelector('#data-mode').value,
             'stock_select': document.querySelector('#stock-selection').value,
-        })
-        //console.log(message)
-        sendMessage(socket,message)
+        });
+        
+        if (market_status=="Closed" && document.querySelector('#data-mode').value=="realTime"){
+            document.querySelector('#update-error').style.display = "block";
+        }else{
+            document.querySelector('#update-error').style.display = "none";
+        }
+        sendMessage(socket,message);
     }
 
 });
@@ -135,24 +143,21 @@ socket.onmessage = function(event){
     if (data.data_mode=='realTime'){
         var today = new Date();
         var time = padZero(today.getHours()) + ":" + padZero(today.getMinutes()) + ":" + padZero(today.getSeconds());
-        layout.title.text = data.stock_select + ': Real Time';
+        layout.title.text = data.stock_select + ': Real Time Quotes';
         
-        console.log(time+': '+data.ask.toFixed(2));
-        Plotly.extendTraces('chart',{ 
-            x: [[time],[time]],
-            y: [[data.bid],[data.ask]]
-        }, [0,1], limit); //keep only [limit] most recent points
-        // cnt++;
-        // if(cnt > limit) {
-        //     Plotly.relayout('chart',{
-        //         xaxis: {
-        //             range: [cnt-limit,cnt],
-        //             linecolor: 'black',
-        //             linewidth: 2,
-        //             mirror: true
-        //         }
-        //     });
-        // }
+        if(market_status=="Closed"){
+            Plotly.extendTraces('chart',{ 
+                x: [[time]],
+                y: [[data.close]]
+            }, [0], limit);
+        }else{
+            Plotly.extendTraces('chart',{ 
+                x: [[time]],
+                y: [[data.ask]]
+            }, [1], limit); //keep only [limit] most recent points
+        }
+        //console.log(time+': '+data.ask.toFixed(2));
+
     }else{
         processHistorical(data.x_val,data.y_val)
     }
@@ -175,30 +180,40 @@ function processHistorical(x_val,y_val){
 }
 
 //Handle update button click
-function handleUpdate() {
+// function handleUpdate() {
+//     var data_mode = document.querySelector('#data-mode').value;
+//     var stock_select = document.querySelector('#stock-selection').value;
+//     if (market_status=="Closed" && data_mode=="realTime"){
+//         document.querySelector('#update-error').style.display = "block"
+//     }else if (stock_select=='none'){
+//         alert('Please select a stock!')
+//     }else{
+//         if (data_mode=='realTime'){
+//             Plotly.newPlot('chart',plotData,layout);
+//             trace1.x = []
+//             trace1.y = []
+//             trace2.x = []
+//             trace2.y = []
+//         }
+//         document.querySelector('#update-error').style.display = "none"
+//         socket.send(JSON.stringify({
+//             'data_mode': data_mode,
+//             'stock_select': stock_select,
+//         }));
+//     }
+// };
+
+document.querySelector('#update-btn').addEventListener('click', handleUpdate)
+
+function handleUpdate(){
     var data_mode = document.querySelector('#data-mode').value;
     var stock_select = document.querySelector('#stock-selection').value;
-    if (market_status=="Closed" && data_mode=="realTime"){
-        document.querySelector('#update-error').style.display = "block"
-    }else if (stock_select=='none'){
-        alert('Please select a stock!')
+    if (stock_select=='none'){
+        alert('Please select a stock!');
     }else{
-        //console.log('button clicked, sending '+data_mode+' and '+stock_select)
-        if (data_mode=='realTime'){
-            Plotly.newPlot('chart',plotData,layout);
-            trace1.x = []
-            trace1.y = []
-            trace2.x = []
-            trace2.y = []
-        }
-        document.querySelector('#update-error').style.display = "none"
-        socket.send(JSON.stringify({
-            'data_mode': data_mode,
-            'stock_select': stock_select,
-        }));
+        document.getElementById('update-link').href='//'+window.location.host+`/update/${data_mode}/${stock_select}`;
     }
-};
-document.querySelector('#update-btn').addEventListener('click', handleUpdate)
+}
 
 function padZero(num){
     if (num<10){

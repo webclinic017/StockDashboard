@@ -69,19 +69,30 @@ class WSConsumer(AsyncWebsocketConsumer):
     async def realTime(self, event):
         data_mode = event['data_mode']
         stock_select = event['stock_select']
-        for i in range(15):
+        # for i in range(15):
+        #     await self.send(json.dumps({
+        #         'data_mode': data_mode,
+        #         'stock_select': stock_select,
+        #         'bid': randint(150,160),
+        #         'ask': randint(160,170),
+        #         }))
+        #     await sleep(1)
+
+        while alpaca.isOpen():
+            quote = alpaca.getQuote(stock_select)
             await self.send(json.dumps({
                 'data_mode': data_mode,
                 'stock_select': stock_select,
-                'bid': randint(150,160),
-                'ask': randint(160,170),
+                'bid': round(quote.bidprice,2),
+                'ask': round(quote.askprice,2),
                 }))
             await sleep(1)
 
-        # while alpaca.isOpen():
-        #     quote = alpaca.getQuote(stock_select)
-        #     await self.send(json.dumps({
-        #         'bid': round(quote.bidprice,2),
-        #         'ask': round(quote.askprice,2),
-        #         }))
-        #     await sleep(1)
+        while not alpaca.isOpen():
+            close = alpaca.getLastClose(stock_select)
+            await self.send(json.dumps({
+                'data_mode': data_mode,
+                'stock_select': stock_select,
+                'close': round(close,2),
+                }))
+            await sleep(1)

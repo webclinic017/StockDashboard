@@ -77,3 +77,8 @@ def delete(request, pk):
         searchInfo.save()
 
     return redirect('/')
+
+def update(request, type, stock):
+    #print(f'hit {type} {stock}')
+
+    return index(request)

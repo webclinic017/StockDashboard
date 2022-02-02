@@ -35,13 +35,15 @@
         </div>
     </div>
     <div class="col-md" align="center">
+        <a style="text-decoration: none;" id='update-link' href="">
         <button id="update-btn" class="btn btn-warning">Update</button>
+        </a>
     </div>
 </div>
 
 <div class="row">
     <div class="col" align="center">
-        <span id="update-error" style="display: none;">Real time data only available when market is open</span>
+        <span id="update-error" style="display: none;">Real time data only available when market is open (M-F 9:30am-4pm EST excluding holidays), displaying most recent minute bar data.</span>
     </div>
 </div>
 
@@ -52,5 +54,5 @@
 </div>
 
 {% load static %}
-<script src="{% static 'stocks/plot.js' %}"></script>
+<script type="text/javascript" src="{% static 'stocks/plot.js' %}"></script>
 

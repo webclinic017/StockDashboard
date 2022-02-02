@@ -1,7 +1,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.6/dist/autoComplete.min.js"></script>
 
 <script type="text/javascript">
-    const res = {{res | safe}}
+    const res = {{res | safe}} //only works in .html file, not .js
     //const auth_status = {{ info.validity | yesno:"true,false" }};
 
     const autoCompleteJS = new autoComplete({
