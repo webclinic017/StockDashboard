@@ -48,11 +48,28 @@
 </div>
 
 <div class="row">
-    <div class="col-md" align="center">
+    <div class="col-md-8" align="center">
         <div id="chart"></div>
+    </div>
+    <div class="col-md-4" align="center">
+        <div id='tweet-feed'>
+            <!-- <blockquote class="twitter-tweet">
+                <a href="https://twitter.com/twitter/statuses/1489410124670287873"></a> 
+            </blockquote>
+
+            <blockquote class="twitter-tweet">
+                <a href="https://twitter.com/twitter/statuses/1489410658781249541"></a> 
+            </blockquote>
+
+            <blockquote class="twitter-tweet">
+                <a href="https://twitter.com/twitter/statuses/1489410554565259267"></a> 
+            </blockquote> -->
+        </div>
     </div>
 </div>
 
 {% load static %}
+<script type="text/javascript" src="{% static 'main/loadPage.js' %}"></script>
 <script type="text/javascript" src="{% static 'stocks/plot.js' %}"></script>
+<script type="text/javascript" src="{% static 'stocks/tweet.js' %}"></script>
 

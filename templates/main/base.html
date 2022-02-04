@@ -8,16 +8,18 @@
     <script src="https://kit.fontawesome.com/bc75a95e50.js" crossorigin="anonymous"></script>
     <script src="https://cdn.plot.ly/plotly-2.8.3.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
     {% load static %}
     <link rel="stylesheet" href="{% static 'main/style.css' %}">
     <link href="{% static 'listItems/search.css' %}" rel="stylesheet">
     <link href="{% static 'listItems/autoComp.css' %}" rel="stylesheet">
     <link href="{% static 'stocks/tableArea.css' %}" rel="stylesheet">
+    <link href="{% static 'stocks/tweet.css' %}" rel="stylesheet">
     <link rel="shortcut icon" type="image/jpg" href="{% static 'images/mr_market.jpg' %}"/>
-
   </head>
   <body>
+
     <div class="container-fluid">
       <!-- <div class="row banner"></div> -->
       <div class="row title">
@@ -30,12 +32,12 @@
       </div>
 
       {% include "listItems/index.html" %}     
-      {% include "stocks/stockTable.html" %}     
+      {% include "stocks/stockTable.html" %}       
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
 
   </body>
 </html>

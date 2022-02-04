@@ -2,8 +2,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from asyncio import sleep
 import json
 from random import randint
-from stocks import alpaca, func
-import yfinance as yf
+from stocks import alpaca, func, tweet
 
 class WSConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -96,3 +95,45 @@ class WSConsumer(AsyncWebsocketConsumer):
                 'close': round(close,2),
                 }))
             await sleep(1)
+
+class TweetConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.group_name = 'tweet_data'
+        
+        # Join room group
+        await self.channel_layer.group_add(
+            self.group_name,
+            self.channel_name
+        )
+
+        await self.accept()
+    
+    async def disconnect(self, close_code):
+        # Leave group
+        await self.channel_layer.group_discard(
+            self.group_name,
+            self.channel_name
+        )
+
+    # Receive message from WebSocket (JS frontend)
+    async def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        stock_select = text_data_json['stock_select']
+
+        # Send message to group
+        await self.channel_layer.group_send(
+            self.group_name,
+            {
+                'type': 'tweet',
+                'stock_select': stock_select,
+            }
+        )
+    
+    # Receive message from group
+    async def tweet(self, event):
+        stock_select = event['stock_select']
+        urls = tweet.getTweetURL(stock_select,10)
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({
+            'urls': urls,
+        }))

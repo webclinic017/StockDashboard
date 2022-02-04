@@ -1,38 +1,5 @@
 var cnt = 0;
 var limit = 10;
-const market_status = document.querySelector('#market-status').textContent
-const ws_url = 'ws://' + window.location.host + '/ws/graph/';
-const socket = new WebSocket(ws_url);
-
-const waitForOpenConnection = (socket) => {
-    return new Promise((resolve, reject) => {
-        const maxNumberOfAttempts = 10
-        const intervalTime = 200 //ms
-
-        let currentAttempt = 0
-        const interval = setInterval(() => {
-            if (currentAttempt > maxNumberOfAttempts - 1) {
-                clearInterval(interval)
-                reject(new Error('Maximum number of attempts exceeded'))
-            } else if (socket.readyState === socket.OPEN) {
-                clearInterval(interval)
-                resolve()
-            }
-            currentAttempt++
-        }, intervalTime)
-    })
-}
-
-const sendMessage = async (socket, msg) => {
-    if (socket.readyState !== socket.OPEN) {
-        try {
-            await waitForOpenConnection(socket)
-            socket.send(msg)
-        } catch (err) { console.error(err) }
-    } else {
-        socket.send(msg)
-    }
-}
 
 var trace1 = {
     x:[],
@@ -110,33 +77,6 @@ var layout = {
         text: ''
     }
 };
-
-//load appropriate graph on page load
-$( document ).ready(function() {
-    if (document.URL==window.location.origin+'/'){ //loading root URL
-        document.querySelector('#stock-selection').selectedIndex = 1
-    }else{
-        document.querySelector('#data-mode').value = document.URL.split('/').slice(-2)[0]
-        document.querySelector('#stock-selection').value = document.URL.split('/').slice(-1)[0]
-    }
-
-    var numStocks = document.getElementById("stockList").getElementsByTagName("li").length
-    Plotly.newPlot('chart',plotData,layout);
-    if (numStocks>0){
-        message = JSON.stringify({
-            'data_mode': document.querySelector('#data-mode').value,
-            'stock_select': document.querySelector('#stock-selection').value,
-        });
-        
-        if (market_status=="Closed" && document.querySelector('#data-mode').value=="realTime"){
-            document.querySelector('#update-error').style.display = "block";
-        }else{
-            document.querySelector('#update-error').style.display = "none";
-        }
-        sendMessage(socket,message);
-    }
-
-});
 
 socket.onmessage = function(event){
     var data = JSON.parse(event.data);
