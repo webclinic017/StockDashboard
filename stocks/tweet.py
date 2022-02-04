@@ -23,10 +23,10 @@ class TwitterClient():
 
 api = TwitterClient().get_twitter_client_api()
 
-def getTweetURL(searchText, numTweets):
+def getTweetID(searchText, numTweets):
     tweets = api.search_tweets(q=searchText, count=numTweets)
-    urls = []
+    ids = []
     for tweet in tweets:
        #urls.append('https://twitter.com/twitter/statuses/'+tweet.id_str)
-       urls.append(tweet.id_str) 
-    return urls
+       ids.append(tweet.id_str) 
+    return ids

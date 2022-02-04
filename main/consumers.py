@@ -132,8 +132,8 @@ class TweetConsumer(AsyncWebsocketConsumer):
     # Receive message from group
     async def tweet(self, event):
         stock_select = event['stock_select']
-        urls = tweet.getTweetURL(stock_select,10)
+        ids = tweet.getTweetID(stock_select,10)
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
-            'urls': urls,
+            'ids': ids,
         }))
