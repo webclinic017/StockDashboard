@@ -78,5 +78,5 @@ def delete(request, pk):
 
     return redirect('/')
 
-def update(request, type, stock):
+def update(request, type, stock, count):
     return index(request)

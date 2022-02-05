@@ -119,6 +119,7 @@ class TweetConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         stock_select = text_data_json['stock_select']
+        tweet_count = text_data_json['tweet_count']
 
         # Send message to group
         await self.channel_layer.group_send(
@@ -126,13 +127,15 @@ class TweetConsumer(AsyncWebsocketConsumer):
             {
                 'type': 'tweet',
                 'stock_select': stock_select,
+                'tweet_count': tweet_count,
             }
         )
     
     # Receive message from group
     async def tweet(self, event):
         stock_select = event['stock_select']
-        ids = tweet.getTweetID(stock_select,10)
+        tweet_count  = event['tweet_count']
+        ids = tweet.getTweetID(stock_select,int(tweet_count))
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'ids': ids,

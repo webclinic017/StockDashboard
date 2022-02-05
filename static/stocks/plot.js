@@ -148,10 +148,11 @@ document.querySelector('#update-btn').addEventListener('click', handleUpdate)
 function handleUpdate(){
     var data_mode = document.querySelector('#data-mode').value;
     var stock_select = document.querySelector('#stock-selection').value;
+    var tweet_count = document.querySelector('#tweet-count').value;
     if (stock_select=='none'){
         alert('Please select a stock!');
     }else{
-        document.getElementById('update-link').href='//'+window.location.host+`/update/${data_mode}/${stock_select}`;
+        document.getElementById('update-link').href='//'+window.location.host+`/update/${data_mode}/${stock_select}/${tweet_count}`;
     }
 }
 

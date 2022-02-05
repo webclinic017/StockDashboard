@@ -11,6 +11,5 @@ tweetSocket.onmessage = function(event){
                 theme: 'dark'
             }
         );
-    
     }
 }

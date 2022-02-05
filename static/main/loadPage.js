@@ -40,8 +40,9 @@ $( document ).ready(function() {
     if (document.URL==window.location.origin+'/'){ //loading root URL
         document.querySelector('#stock-selection').selectedIndex = 1
     }else{
-        document.querySelector('#data-mode').value = document.URL.split('/').slice(-2)[0]
-        document.querySelector('#stock-selection').value = document.URL.split('/').slice(-1)[0]
+        document.querySelector('#data-mode').value = document.URL.split('/').slice(-3)[0]
+        document.querySelector('#stock-selection').value = document.URL.split('/').slice(-2)[0]
+        document.querySelector('#tweet-count').value = document.URL.split('/').slice(-1)[0]
     }
 
     var numStocks = document.getElementById("stockList").getElementsByTagName("li").length
@@ -62,8 +63,11 @@ $( document ).ready(function() {
         //load tweets
         tweet_msg = JSON.stringify({
             'stock_select': '$'+document.querySelector('#stock-selection').value,
+            'tweet_count': document.querySelector('#tweet-count').value,
         });
         sendMessage(tweetSocket,tweet_msg);
+    }else{
+        document.querySelector('#stock-selection').selectedIndex = 0
     }
 
 });
