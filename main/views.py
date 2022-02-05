@@ -79,6 +79,4 @@ def delete(request, pk):
     return redirect('/')
 
 def update(request, type, stock):
-    #print(f'hit {type} {stock}')
-
     return index(request)
