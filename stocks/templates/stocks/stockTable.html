@@ -12,7 +12,7 @@
     </div>
     <div class="col-md" align="center">
         <div>
-            <label for="mode">Choose data type:</label>
+            <label for="mode">Type:</label>
             <select name="mode" id="data-mode">
             <option value="realTime">Real Time</option>
             <option value="1mo">Historical - 1 Month</option>
@@ -25,7 +25,7 @@
     </div>
     <div class="col-md" align="center">
         <div>
-            <label for="stocks">Choose stock:</label>
+            <label for="stocks">Stock:</label>
             <select name="stocks" id="stock-selection">
             <option value="none">Select a stock</option>
             {% for stock in to_add %}
@@ -36,7 +36,7 @@
     </div>
     <div class="col-md" align="center">
         <div>
-            <label for="count">Tweets to show:</label>
+            <label for="count">Tweets:</label>
             <select name="count" id="tweet-count">
                 <option value="10">10</option>
                 <option value="20">20</option>
@@ -60,11 +60,8 @@
 </div>
 
 <div class="row">
-    <div class="col-md-8" align="center">
+    <div class="col" align="center">
         <div id="chart"></div>
-    </div>
-    <div class="col-md-4" align="center">
-        <div id='tweet-feed'></div>
     </div>
 </div>
 

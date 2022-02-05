@@ -21,18 +21,25 @@
   <body>
 
     <div class="container-fluid">
-      <!-- <div class="row banner"></div> -->
-      <div class="row title">
-        <div class="col" align="center">
-          <img src="{% static 'images/market_run.png' %}" alt="Mr. Market" >
-          <h1>Market Master</h1>
-          <span>Always be one step ahead <i class="fas fa-check-square"></i></span>
-          <!-- {% block listItems %}{% endblock %}  -->
+      <div class="row">
+        <div class="col-md-8" style="border: 5px solid red;" align="center">
+            <div class="row title">
+              <div class="col" align="center">
+                <img src="{% static 'images/market_run.png' %}" alt="Mr. Market" >
+                <h1>Market Master</h1>
+                <span>Always be one step ahead <i class="fas fa-check-square"></i></span>
+              </div>
+            </div>
+
+            {% include "stocks/stockTable.html" %}
+            {% include "listItems/index.html" %}     
+            
+        </div>
+        <div class="col-md-4" align="center">
+            <div id='tweet-feed'></div>
         </div>
       </div>
-
-      {% include "listItems/index.html" %}     
-      {% include "stocks/stockTable.html" %}       
+             
     </div>
 
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

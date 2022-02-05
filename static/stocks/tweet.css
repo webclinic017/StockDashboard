@@ -1,5 +1,7 @@
 #tweet-feed {
-    height: 50%;
+    height: 100vh;
     overflow-y: scroll;
     border: solid;
+    position: fixed;
+    width: inherit;
 }
