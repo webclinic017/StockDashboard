@@ -101,6 +101,7 @@ socket.onmessage = function(event){
     }else{
         processHistorical(data.x_val,data.y_val)
     }
+    document.querySelector('.user-select-none.svg-container').firstElementChild.style.backgroundColor = plotColor;
 }
 
 function processHistorical(x_val,y_val){

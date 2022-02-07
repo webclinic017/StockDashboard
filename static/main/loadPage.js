@@ -46,7 +46,9 @@ $( document ).ready(function() {
     }
 
     var numStocks = document.getElementById("stockList").getElementsByTagName("li").length
+
     Plotly.newPlot('chart',plotData,layout);
+
     if (numStocks>0){
         message = JSON.stringify({
             'data_mode': document.querySelector('#data-mode').value,
