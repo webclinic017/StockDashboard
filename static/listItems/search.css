@@ -78,8 +78,12 @@ ul li .row .col{
     margin: 10px auto;
 }
 /* Set all odd list items to a different color (zebra-stripes) */
-ul li:nth-child(odd) {
-background: #f9f9f9;
+#stockList li:nth-child(odd) {
+background: rgb(62,62,62);
+}
+
+#stockList li:nth-child(even) {
+    background: rgb(41,41,41);
 }
 
 /* Darker background-color on hover */

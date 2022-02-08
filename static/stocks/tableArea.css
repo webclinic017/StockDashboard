@@ -1,6 +1,11 @@
 .table-controller{
     margin: 12px auto;
     background: linear-gradient(to right, #5050DB, #9651DB);
+    border-radius: 15px;
+}
+
+.btn-warning {
+    color: white;
 }
 
 .table-controller div{

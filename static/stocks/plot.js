@@ -6,7 +6,7 @@ var trace1 = {
     y:[],
     mode: 'lines+markers',
     marker: {
-        color: '#yellow',
+        color: 'yellow',
         size: 8
     },
     line: {
@@ -20,11 +20,11 @@ var trace2 = {
     y:[],
     mode: 'lines+markers',
     marker: {
-        color: '#E51E11',
+        color: 'red',
         size: 8
     },
     line: {
-        color: '#E51E11',
+        color: 'red',
         width: 2
     },
     name: 'Ask'
@@ -82,7 +82,11 @@ var layout = {
         },
     },
     title: {
-        text: ''
+        text: '',
+        font: {
+            size: 20,
+            color: 'white'
+        },
     }
 };
 
@@ -121,10 +125,24 @@ function processHistorical(x_val,y_val){
     var stock_select = document.querySelector('#stock-selection').value
     Plotly.newPlot('chart',[trace3],{
         title: {
-            text: stock_select + ': ' + data_mode
+            text: stock_select + ': ' + data_mode,
+            font: {
+                size: 20,
+                color: 'white'
+            },
+        },
+        xaxis: {
+            tickfont: {
+                size: 16,
+                color: 'white',
+            } 
         },
         yaxis: {
-            tickformat: '$'
+            tickformat: '$',
+            tickfont: {
+                size: 16,
+                color: 'white',
+            } 
         }
     });
 }
