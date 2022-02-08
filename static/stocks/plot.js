@@ -6,11 +6,11 @@ var trace1 = {
     y:[],
     mode: 'lines+markers',
     marker: {
-        color: '#DDDF61',
+        color: '#yellow',
         size: 8
     },
     line: {
-        color: '#DDDF61',
+        color: 'yellow',
         width: 2
     },
     name: 'Close'
@@ -51,6 +51,10 @@ var layout = {
         linecolor: 'black',
         linewidth: 2,
         mirror: true,
+        tickfont : {
+            size : 16,
+            color : plotTickColor,
+        }
     },
     yaxis: {
         linecolor: 'black',
@@ -59,6 +63,10 @@ var layout = {
         gridcolor: '#C8C8C4',
         //title: 'Price (USD)',
         tickformat: '$',
+        tickfont : {
+            size : 16,
+            color : plotTickColor,
+        }
     },
     plot_bgcolor: '#444',
     showlegend: true,
@@ -101,7 +109,8 @@ socket.onmessage = function(event){
     }else{
         processHistorical(data.x_val,data.y_val)
     }
-    document.querySelector('.user-select-none.svg-container').firstElementChild.style.backgroundColor = plotColor;
+    //document.querySelector('.user-select-none.svg-container').firstElementChild.style.backgroundColor = plotColor;
+    document.querySelector('.user-select-none.svg-container').firstElementChild.style.background = 'none';
 }
 
 function processHistorical(x_val,y_val){

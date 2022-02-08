@@ -1,5 +1,6 @@
 .table-controller{
     margin: 12px auto;
+    background: linear-gradient(to right, #5050DB, #9651DB);
 }
 
 .table-controller div{
